@@ -16,6 +16,8 @@ type Task = {
 export function Home() {
     const [tasks, setTasks] = useState<Task[]>([]);
 
+    const completeTasks = tasks.filter(task => task.isComplete === true).length;
+
     function handleTaskAdd(title: string) {
         const newTask = {
             id: uuidv4(),
@@ -39,6 +41,16 @@ export function Home() {
         ])
     }
 
+    function completeTask(id: string) {
+        setTasks(prevState => prevState.map(task => {
+            if(task.id === id) {
+                task.isComplete = !task.isComplete;
+            }
+
+            return task
+        }))
+    }
+
     return (
         <Fragment>
             <Header />
@@ -48,8 +60,8 @@ export function Home() {
 
                 <View style={ styles.tasksArea }>
                     <View style={ styles.header }>
-                        <Accountants text='Criadas' count={0} color={'blue'} />
-                        <Accountants text='Concluídas' count={0} color={'purple'} />
+                        <Accountants text='Criadas' count={tasks.length} color={'blue'} />
+                        <Accountants text='Concluídas' count={completeTasks} color={'purple'} />
                     </View>
 
                     <View style={ styles.content }>
@@ -60,6 +72,7 @@ export function Home() {
                                     title={ item.title } 
                                     isComplete={ item.isComplete } 
                                     onRemove={() => handleTaskRemove(item.id)}
+                                    onComplete={() => completeTask(item.id)}
                                 />
                             )}
                             keyExtractor={item => item.id}

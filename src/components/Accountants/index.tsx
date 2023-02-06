@@ -13,7 +13,7 @@ export function Accountants({ text, count, color }: Props) {
 
     return (
         <View style={ styles.accountants }>
-            <Text style={ [styles.text, textStyle] }>{ text }</Text>
+            <Text style={ [styles.text, textStyle, ] }>{ text }</Text>
             <Text style={ styles.count }>{ count }</Text>
         </View>
     )

@@ -9,15 +9,22 @@ type Props = {
     title: string,
     isComplete: boolean,
     onRemove: () => void,
+    onComplete: () => void,
 }
 
-export function Task({ title, isComplete, onRemove }: Props) {
+export function Task({ title, isComplete, onRemove, onComplete }: Props) {
     const [checkboxState, setCheckboxState] = useState(isComplete);
+
+    function handleTaskComplete() {
+        setCheckboxState(!checkboxState);
+
+        onComplete();
+    }   
 
     return (
         <View style={ styles.task }>
             <BouncyCheckbox 
-                onPress={() => setCheckboxState(!checkboxState)} 
+                onPress={handleTaskComplete} 
                 isChecked={checkboxState}
                 size={20.73}
                 style={ styles.checkbox }
@@ -26,7 +33,7 @@ export function Task({ title, isComplete, onRemove }: Props) {
                 TouchableComponent={Pressable}
             />
 
-            <Text style={styles.title}>{ title }</Text>
+            <Text style={ [styles.title, checkboxState ? styles.checked : styles.unChecked] }>{ title }</Text>
 
             <Pressable 
                 style={({pressed}) => [

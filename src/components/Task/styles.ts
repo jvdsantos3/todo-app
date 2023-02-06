@@ -21,9 +21,17 @@ export const styles = StyleSheet.create({
 
     title: {
         flex: 1,
-        color: colors.gray100,
         fontSize: 14,
         lineHeight: 19.6,
+    },
+
+    checked: {
+        color: colors.gray300,
+        textDecorationLine: 'line-through',
+    },
+
+    unChecked: {
+        color: colors.gray100,
     },
 
     deleteButton: {
