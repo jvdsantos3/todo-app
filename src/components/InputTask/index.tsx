@@ -5,8 +5,19 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 import { styles } from "./styles";
 
-export function InputTask() {
-    const [ inputStyle, setInputStyle ] = useState(styles.inputBlur)
+type Props = {
+    onCreate: (title: string) => void;
+}
+
+export function InputTask({ onCreate }: Props) {
+    const [ inputStyle, setInputStyle ] = useState(styles.inputBlur);
+    const [ taskTitle, setTaskTitle ] = useState('');
+
+    function handleTaskAdd() {
+        onCreate(taskTitle);
+
+        setTaskTitle('');
+    }
 
     function onFocus() {
         setInputStyle(styles.inputFocus)
@@ -24,6 +35,8 @@ export function InputTask() {
                 placeholderTextColor={colors.gray300}
                 onFocus={onFocus}
                 onBlur={onBlur}
+                onChangeText={setTaskTitle}
+                value={taskTitle}
             />
 
             <Pressable
@@ -33,6 +46,7 @@ export function InputTask() {
                     },
                     styles.button
                 ]}
+                onPress={handleTaskAdd}
             >
                 <Icon name="pluscircleo" size={16} color={ colors.gray100 } />
             </Pressable>

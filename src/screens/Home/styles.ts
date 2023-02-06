@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
 
     content: {
         marginTop: 20,
+        height: '90%',
     },
 
     emptyContent: {

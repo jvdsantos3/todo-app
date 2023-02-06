@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
-import { FlatList, View, Text, Image } from "react-native";
+import { v4 as uuidv4 } from 'uuid'
+import { FlatList, View, Text, Image, Alert } from "react-native";
 import { Accountants } from '../../components/Accountants';
 import { Header } from "../../components/Header";
 import { InputTask } from '../../components/InputTask';
@@ -7,26 +8,43 @@ import { Task } from '../../components/Task';
 import { styles } from "./styles";
 
 type Task = {
-    id: string,
+    id: string
     title: string,
     isComplete: boolean,
 }
 
 export function Home() {
-    const [tasks, setTasks] = useState<Task[]>([
-        // {
-        //     id: '1',
-        //     title: 'Teste',
-        //     isComplete: false,
-        // }
-    ]);
+    const [tasks, setTasks] = useState<Task[]>([]);
+
+    function handleTaskAdd(title: string) {
+        const newTask = {
+            id: uuidv4(),
+            title: title,
+            isComplete: false,
+        };
+
+        setTasks(prevState => [...prevState, newTask])
+    }
+
+    function handleTaskRemove(id: string) {
+        Alert.alert('Remover', 'Remover a tarefa?', [
+            {
+                text: 'Sim',
+                onPress: () => setTasks(prevState => prevState.filter(task => task.id != id)),
+            },
+            {
+                text: 'Não',
+                style: 'cancel',
+            }
+        ])
+    }
 
     return (
         <Fragment>
             <Header />
 
             <View style={ styles.container }>
-                <InputTask />
+                <InputTask onCreate={handleTaskAdd} />
 
                 <View style={ styles.tasksArea }>
                     <View style={ styles.header }>
@@ -38,7 +56,11 @@ export function Home() {
                         <FlatList 
                             data={tasks}
                             renderItem={({ item }) => (
-                                <Task title={ item.title } />
+                                <Task 
+                                    title={ item.title } 
+                                    isComplete={ item.isComplete } 
+                                    onRemove={() => handleTaskRemove(item.id)}
+                                />
                             )}
                             keyExtractor={item => item.id}
                             showsVerticalScrollIndicator={false}
