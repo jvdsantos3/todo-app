@@ -43,7 +43,7 @@ export function Task({ title, isComplete, onRemove, onComplete }: Props) {
                 onPress={onRemove}
             >
                 {({pressed}) => (
-                    <Icon name="trash-2" size={14} color={ pressed ? colors.danger : colors.gray300 } />
+                    <Icon name="trash-2" size={18} color={ pressed ? colors.danger : colors.gray300 } />
                 )}
             </Pressable>
         </View>
